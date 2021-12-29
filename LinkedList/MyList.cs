@@ -1,6 +1,8 @@
-﻿namespace LinkedList
-{
+﻿using System.Runtime.CompilerServices;
+using System.Security.Cryptography.X509Certificates;
 
+namespace LinkedList
+{
     public class DynamicList<T>
     {
         private class ListNode //holds element and pointer to next element
@@ -106,6 +108,37 @@
             return currentNode.Element;
         }
 
+        public int Remove(T item)
+        {
+            int currentIndex = 0;
+            ListNode currentNode = this._head;
+            ListNode prevNode = null;
+
+            while (currentNode != null)
+            {
+                if (Equals(currentNode.Element, item))
+                {
+                    break;
+                }
+
+                prevNode = currentNode;
+                currentNode = currentNode.NextNode;
+                currentIndex++;
+            }
+
+            if (currentNode != null)
+            {
+                RemoveListNode(currentNode, prevNode);
+                return currentIndex;
+            }
+            else
+            {
+                return -1;
+            }
+
+
+        }
+
         private void RemoveListNode(ListNode node, ListNode prevNode)
         {
             _count--;
@@ -124,9 +157,36 @@
                 // in the middle or at the end of the list
                 prevNode.NextNode = node.NextNode;
             }
+
+            if (ReferenceEquals(_tail, node))
+            {
+                _tail = prevNode;
+            }
         }
 
+        public int IndexOf(T item)
+        {
+            int index = 0;
+            ListNode curretNode = _head;
 
+            while (curretNode != null)
+            {
+                if (curretNode.Element.Equals(item))
+                {
+                    return index;
+                }
+
+                curretNode = curretNode.NextNode;
+                index++;
+            }
+
+            return -1;
+        }
+
+        public bool Contains(T item)
+        {
+            return IndexOf(item) > -1;
+        }
 
         public void PrintList()
         {
